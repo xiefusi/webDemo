@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.xiefs</groupId>
+    <artifactId>web-demo</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1.SNAPSHOT</version>
+    <modules>
+        <module>controller</module>
+        <module>service</module>
+        <module>service-api</module>
+    </modules>
+    <properties>
+        <!-- project setting -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <!-- plugin -->
+        <compiler.plugin.version>3.6.1</compiler.plugin.version>
+        <deploy.plugin.version>2.8.2</deploy.plugin.version>
+        <source.plugin.version>3.0.1</source.plugin.version>
+        <!-- compile -->
+        <lombok.version>1.16.14</lombok.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.xiefs</groupId>
+                <artifactId>service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.xiefs</groupId>
+                <artifactId>service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>*.example</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${deploy.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${source.plugin.version}</version>
+                <configuration>
+                    <skipSource>false</skipSource>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <spring.active>test</spring.active>
+                <java.options>-Xms256m -Xmx256m -Xloggc:/var/logs/pousheng/gc-%t.log -XX:+PrintGCDetails
+                    -XX:+PrintGCTimeStamps -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+UseGCLogFileRotation
+                    -XX:NumberOfGCLogFiles=60 -XX:GCLogFileSize=5M -XX:+HeapDumpOnOutOfMemoryError
+                    -XX:HeapDumpPath=/var/logs/pousheng/dump.hprof
+                </java.options>
+            </properties>
+        </profile>
+        <profile>
+            <id>prepub</id>
+            <properties>
+                <spring.active>prepub</spring.active>
+                <java.options>-Xms256m -Xmx2566m -Xloggc:/var/logs/pousheng/gc-%t.log -XX:+PrintGCDetails
+                    -XX:+PrintGCTimeStamps -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+UseGCLogFileRotation
+                    -XX:NumberOfGCLogFiles=60 -XX:GCLogFileSize=5M -XX:+HeapDumpOnOutOfMemoryError
+                    -XX:HeapDumpPath=/var/logs/pousheng/dump.hprof
+                </java.options>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.active>prod</spring.active>
+                <java.options>-Xms256m -Xmx256m -Xloggc:/var/logs/pousheng/gc-%t.log -XX:+PrintGCDetails
+                    -XX:+PrintGCTimeStamps -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+UseGCLogFileRotation
+                    -XX:NumberOfGCLogFiles=60 -XX:GCLogFileSize=5M -XX:+HeapDumpOnOutOfMemoryError
+                    -XX:HeapDumpPath=/var/logs/pousheng/dump.hprof
+                </java.options>
+            </properties>
+        </profile>
+    </profiles>
+</project>
